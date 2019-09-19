@@ -1,0 +1,24 @@
+@charset "utf-8";
+
+$psd-width: 750px;
+@function strip-units($value){
+  @return $value / ($value * 0 + 1);
+}
+@function px2rem($value) {
+  @if (unit($value) == rem) {
+    @return $value;
+  } @else{
+    @return strip-units($value) * 10px / $psd-width * 1rem;
+  }
+}
+
+@mixin font-dpr($font-size) {
+  font-size: $font-size * 0.5;
+  [data-dpr="2"] &{
+    font-size: $font-size;
+  }
+  [data-dpr="3"] &{
+    font-size: $font-size * 1.5;
+  }
+}
+

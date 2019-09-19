@@ -1,0 +1,19 @@
+@charset "utf-8";
+
+html,body,#app{
+  height: 100%;
+  background: #f7f7f7;
+}
+.input{
+  line-height: px2rem(42px);
+  padding: px2rem(18px);
+  box-sizing: border-box;
+  border: 1px solid $border-color;
+  background: none;
+  @include placeholder {
+    color: #bbb;
+  }
+}
+.mint-indicator-wrapper{
+    z-index: 9999;
+}
