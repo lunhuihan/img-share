@@ -26,6 +26,10 @@ export default {
           resolve()
         } else {
           let imgList = this.root.querySelectorAll('img')
+          if (!imgList.length) {
+            resolve()
+            return
+          }
           imgList.forEach((img, index) => {
             let newImg = new Image()
             newImg.src = img.src
