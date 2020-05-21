@@ -1,8 +1,6 @@
 import storage from './storage'
 import { typeOf } from './assist'
-import UUID from 'src/utils/uuid'
 import { Toast } from 'vant'
-import sysConfig from 'utils/constant'
 
 export default {
   title (title) {
@@ -29,14 +27,6 @@ export default {
     if (typeOf(authKey) !== 'string') return false
     let authList = this.getUserInfo('permissions', [])
     return authList.includes(authKey)
-  },
-  getCommonHeader () {
-    let { jsessionId } = this.getUserInfo('', {})
-    return {
-      reqId: UUID.createUUID(),
-      jsessionId: process.env.NODE_ENV === 'development' ? sysConfig.devJsessionId : jsessionId,
-      routeName: window.router.app._route.name
-    }
   },
   toast (message, duration = 5000) {
     Toast({

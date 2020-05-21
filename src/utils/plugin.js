@@ -1,12 +1,27 @@
 import * as filter from './filter'
-import http from '../apis'
 import fixedInput from 'mixins/fixedInput'
+import upperFirst from 'lodash/upperFirst'
+import camelCase from 'lodash/camelCase'
+
+const requireHttp = require.context('../apis', false, /\.js$/)
 
 function install (Vue) {
+  requireHttp.keys().forEach(fileName => {
+    const name = upperFirst(
+      camelCase(
+        fileName
+          .split('/')
+          .pop()
+          .replace(/\.\w+$/, '')
+      )
+    )
+    Vue.prototype[`$${name}`] = requireHttp(fileName).default || requireHttp(fileName)
+  })
+
   Object.entries(filter).forEach(([key, value]) => {
     Vue.filter(key, value)
   })
-  Vue.prototype.$Http = http
+
   Vue.directive('input', fixedInput)
 }
 

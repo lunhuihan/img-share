@@ -1,4 +1,4 @@
-import Http from './http-base'
+import Http from './base/index'
 
 class Test {
   /**

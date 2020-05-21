@@ -14,7 +14,7 @@
           <div class="value">2019.08.01-2019.08-03</div>
         </div>
         <div class="right">
-          <qrcode value="http://www.bychjh.com:808/img-share" :options="{ width: 100 }"></qrcode>
+          <qrcode value="https://www.bychjh.com/img-share/#/" :options="{ width: 100 }"></qrcode>
           <div class="tip">扫一扫或长按识别二维码</div>
         </div>
       </div>

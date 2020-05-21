@@ -8,9 +8,6 @@ module.exports = {
       paths: {
         '/test': {
           get: demoData
-        },
-        '/weixin/getJsapiSignature': {
-          get: getJsapiSignature
         }
       }
     }
