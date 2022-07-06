@@ -49,7 +49,9 @@ export default {
           let _this = this
           let scale = window.devicePixelRatio || 2
           html2canvas(this.root, {
-            scale: scale
+            scale: scale,
+            allowTaint: true,
+            useCORS: true
           }).then((canvas) => {
             let img = _this.canvasToImg(canvas, canvas.width / scale, canvas.height / scale)
             resolve(img)
