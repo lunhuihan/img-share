@@ -18,7 +18,7 @@
     "canvas2image": "^1.0.5",
     "html2canvas": "1.0.0-rc.4",
     "lib-flexible": "^0.3.2",
-    "node-sass": "^4.7.2",
+    "node-sass": "^7.0.0",
     "vant": "^2.0.2",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
