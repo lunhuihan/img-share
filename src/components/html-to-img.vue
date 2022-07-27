@@ -6,69 +6,87 @@
 
 <script>
 import html2canvas from 'html2canvas'
+import helper from 'utils/helper'
 export default {
-  name: 'htmlToImg',
-  data () {
+  name: 'HtmlToImg',
+  components: {},
+  data() {
     return {
       root: null,
       imgLoaded: false
     }
   },
-  created () { },
-  async mounted () {
+  created() {},
+  async mounted() {
     this.root = document.querySelector(`.html-to-img-wrap`)
     this.imgsLoaded()
   },
   methods: {
-    imgsLoaded () {
+    imgsLoaded() {
       return new Promise((resolve, reject) => {
         if (this.imgLoaded) {
           resolve()
         } else {
-          let imgList = this.root.querySelectorAll('img')
+          const imgList = this.root.querySelectorAll('img')
           if (!imgList.length) {
             resolve()
             return
           }
-          imgList.forEach((img, index) => {
-            let newImg = new Image()
-            newImg.src = img.src
-            newImg.onload = () => {
-              if (index === (imgList.length - 1)) {
-                this.imgLoaded = true
-                resolve()
-              }
-            }
-          })
+          let list = Array.from(imgList).map((img) => this.imgLoad(img.src))
+          Promise.all(list)
+            .then(() => {
+              this.imgLoaded = true
+              resolve()
+            })
+            .catch((e) => {
+              this.imgLoaded = false
+              reject(e)
+            })
         }
       })
     },
-    html2Img () {
+    imgLoad(src) {
+      return new Promise((resolve, reject) => {
+        const newImg = new Image()
+        newImg.src = src
+        newImg.onload = () => {
+          resolve()
+        }
+        newImg.onerror = (e) => {
+          reject(e)
+        }
+      })
+    },
+    html2Img() {
       return new Promise((resolve, reject) => {
         this.imgsLoaded().then(() => {
-          let _this = this
-          let scale = window.devicePixelRatio || 2
+          const _this = this
+          const scale = window.devicePixelRatio || 2
           html2canvas(this.root, {
-            scale: scale,
+            scale,
             allowTaint: true,
-            useCORS: true
-          }).then((canvas) => {
-            let img = _this.canvasToImg(canvas, canvas.width / scale, canvas.height / scale)
-            resolve(img)
+            useCORS: true,
+            backgroundColor: null
           })
+            .then((canvas) => {
+              const img = _this.canvasToImg(canvas, canvas.width / scale, canvas.height / scale)
+              resolve(img)
+            })
+            .catch((e) => {
+              helper.toast('保存错误')
+              reject(e)
+            })
         })
       })
     },
-    canvasToImg (canvas, width, height) {
-      var image = new Image()
+    canvasToImg(canvas, width, height) {
+      const image = new Image()
+      image.crossOrigin = '*'
       image.src = canvas.toDataURL('image/jpeg')
       image.width = width
       image.height = height
       return image
     }
-  },
-  components: {
-    html2canvas
   }
 }
 </script>
